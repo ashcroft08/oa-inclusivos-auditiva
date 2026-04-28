@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  oa-backend:
+    build: ./backend
+    container_name: oa-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - DB_HOST=moodle-db
+      - DB_PORT=3306
+      - DB_NAME=moodle
+      - DB_USER=root
+      - DB_PASSWORD=moodle_root_pass123
+      - DB_DIALECT=mysql
+      - DB_LOGGING=false
+      - LTI_CONSUMER_KEY=moodle-oa-dev
+      - LTI_SHARED_SECRET=BK2C232t3xp5jStgNxPjgeV2
+      - LTI_LAUNCH_URL=http://localhost:4000/lti-launch # IMPORTANTE: Cambiar 'localhost' por el dominio o IP real del servidor
+      - SESSION_SECRET=lti-session-secret-key-produccion-segura
+      - FRONTEND_URL=http://localhost:3000 # IMPORTANTE: Cambiar por el dominio o IP real del frontend
+      - CORS_ORIGINS=http://localhost:3000,http://localhost
+    networks:
+      - moodle-net
+
+  oa-frontend:
+    build: ./frontend
+    container_name: oa-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    volumes:
+      - ./videos_data:/usr/share/nginx/html/Videos
+    depends_on:
+      - oa-backend
+    networks:
+      - moodle-net
+
+networks:
+  moodle-net:
+    external: true
+    name: moodle-data_moodle-net
