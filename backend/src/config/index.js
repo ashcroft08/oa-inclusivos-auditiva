@@ -53,12 +53,11 @@ export const sessionConfig = {
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false, // Cambiado a false temporalmente para desarrollo por IP local HTTP
-        sameSite: 'lax',
+        secure: serverConfig.isProduction,
+        sameSite: serverConfig.isProduction ? 'none' : 'lax',
         httpOnly: true,
         maxAge: parseInt(process.env.SESSION_MAX_AGE, 10) || 86400000
     }
-
 };
 
 /**
