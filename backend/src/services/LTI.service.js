@@ -18,6 +18,14 @@ class LTIService {
     }
 
     /**
+     * Codifica strings según el estándar RFC 3986 para OAuth 1.0a
+     */
+    rfc3986(str) {
+        return encodeURIComponent(str)
+            .replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+    }
+
+    /**
      * Genera firma OAuth 1.0 para validación
      * @param {string} method - Método HTTP
      * @param {string} url - URL del endpoint
@@ -29,17 +37,18 @@ class LTIService {
     generateSignature(method, url, params, consumerSecret, tokenSecret = '') {
         const sortedParams = Object.keys(params)
             .sort()
-            .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+            .map(key => `${this.rfc3986(key)}=${this.rfc3986(params[key])}`)
             .join('&');
 
-        const baseString = `${method.toUpperCase()}&${encodeURIComponent(url)}&${encodeURIComponent(sortedParams)}`;
-        const signingKey = `${encodeURIComponent(consumerSecret)}&${encodeURIComponent(tokenSecret)}`;
+        const baseString = `${method.toUpperCase()}&${this.rfc3986(url)}&${this.rfc3986(sortedParams)}`;
+        const signingKey = `${this.rfc3986(consumerSecret)}&${this.rfc3986(tokenSecret)}`;
 
         return crypto
             .createHmac('sha1', signingKey)
             .update(baseString)
             .digest('base64');
     }
+
 
     /**
      * Valida un request LTI
@@ -100,9 +109,16 @@ class LTIService {
             this.sharedSecret
         );
 
+        console.log('🔑 VALIDACIÓN DE FIRMA LTI:');
+        console.log('   -> URL Configurada en Servidor:', this.launchUrl);
+        console.log('   -> Firma que envió Moodle: ', body.oauth_signature);
+        console.log('   -> Firma calculada aquí:    ', expectedSignature);
+
         if (body.oauth_signature !== expectedSignature) {
+            console.error('❌ Firma LTI inválida.');
             throw new Error('Invalid signature');
         }
+
 
         return true;
     }
