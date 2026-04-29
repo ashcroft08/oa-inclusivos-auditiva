@@ -33,44 +33,56 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     /**
-     * Inicializa la autenticación leyendo parámetros LTI
+     * Inicializa la autenticación leyendo parámetros LTI o localStorage
      */
     const initializeAuth = useCallback(async () => {
         setIsLoading(true);
         setError(null);
 
         try {
-            // Primero intentar leer parámetros de URL (vienen del LTI launch)
+            // 1. Intentar leer parámetros de URL (vienen del LTI launch inicial)
             const ltiParams = ltiService.parseLTIParams();
             
             if (ltiParams) {
-                // Hay parámetros LTI en la URL
-                setUser({
-                    id: ltiParams.user_id,
-                    name: ltiParams.user_name
-                });
-                setCourse({
-                    id: ltiParams.course_id,
-                    title: ltiParams.course_title
-                });
-                setRoles(ltiParams.roles);
+                const userData = { id: ltiParams.user_id, name: ltiParams.user_name };
+                const courseData = { id: ltiParams.course_id, title: ltiParams.course_title };
+                const rolesData = ltiParams.roles;
 
-                // Limpiar URL para evitar mostrar parámetros
+                setUser(userData);
+                setCourse(courseData);
+                setRoles(rolesData);
+
+                // Guardar en localStorage para persistencia en recargas
+                localStorage.setItem('oa_user', JSON.stringify(userData));
+                localStorage.setItem('oa_course', JSON.stringify(courseData));
+                localStorage.setItem('oa_roles', JSON.stringify(rolesData));
+
+                // Limpiar URL para evitar mostrar parámetros sensibles
                 const cleanUrl = window.location.pathname;
                 window.history.replaceState({}, '', cleanUrl);
             } else {
-                // Intentar obtener datos de sesión del backend
-                const ltiData = await ltiService.getLTIData();
-                
-                if (ltiData) {
-                    setUser(ltiData.user);
-                    setCourse(ltiData.context);
-                    setRoles(ltiData.roles?.names || []);
+                // 2. Intentar cargar desde localStorage (para F5/Recarga)
+                const storedUser = localStorage.getItem('oa_user');
+                const storedCourse = localStorage.getItem('oa_course');
+                const storedRoles = localStorage.getItem('oa_roles');
+
+                if (storedUser && storedCourse && storedRoles) {
+                    setUser(JSON.parse(storedUser));
+                    setCourse(JSON.parse(storedCourse));
+                    setRoles(JSON.parse(storedRoles));
                 } else {
-                    // No hay sesión
-                    setUser(null);
-                    setCourse(null);
-                    setRoles([]);
+                    // 3. Como último recurso, pedir datos de sesión al backend
+                    const ltiData = await ltiService.getLTIData();
+                    
+                    if (ltiData) {
+                        setUser(ltiData.user);
+                        setCourse(ltiData.context);
+                        setRoles(ltiData.roles?.names || []);
+                    } else {
+                        setUser(null);
+                        setCourse(null);
+                        setRoles([]);
+                    }
                 }
             }
         } catch (err) {
@@ -83,6 +95,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     }, []);
+
 
     // Inicializar al montar
     useEffect(() => {
@@ -98,11 +111,15 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             console.error('Error en logout:', err);
         } finally {
+            localStorage.removeItem('oa_user');
+            localStorage.removeItem('oa_course');
+            localStorage.removeItem('oa_roles');
             setUser(null);
             setCourse(null);
             setRoles([]);
         }
     };
+
 
     /**
      * Recarga los datos de autenticación
