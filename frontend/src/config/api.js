@@ -3,7 +3,7 @@
  */
 
 export const API_CONFIG = {
-    BASE_URL: 'http://localhost:4000',
+    BASE_URL: import.meta.env.VITE_API_URL || 'https://api-oa.ueesch.org',
     ENDPOINTS: {
         // LTI
         LTI_DATA: '/api/lti-data',
