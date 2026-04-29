@@ -53,11 +53,12 @@ const NoSessionView = () => {
                     </button>
                     
                     <a
-                        href="http://localhost/moodle"
+                        href="https://ueesch.org"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 rounded-full font-semibold transition-all"
                     >
+
                         <ExternalLink className="w-5 h-5" />
                         Ir a Moodle
                     </a>
