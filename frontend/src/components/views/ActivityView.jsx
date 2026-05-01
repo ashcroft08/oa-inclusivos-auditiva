@@ -8,20 +8,21 @@ import CompletionAnimation from "../CompletionAnimation";
 import { modulesData } from "../../data/activitiesData";
 import { useProgress } from "../../context/ProgressContext";
 
-// === 2. MAPA DE VIDEOS (Archivos estáticos en public/Videos) ===
+// === 2. MAPA DE VIDEOS (Archivos estáticos en public/Videos y YouTube) ===
 const videoMap = {
-    'ciclo_intro': '/Videos/ciclo_vida_1.mp4',
+    'ciclo_intro': 'https://youtu.be/Ay9mg4mjOrw',
     'ciclo_etapas': '/Videos/ciclo_vida_plantas.mp4',
     'ciclo_sentidos': '/Videos/cinco_sentidos.mp4',
-    'animales_intro': '/Videos/reino_animal.mp4',
-    'animales_dieta': '/Videos/reino_animal_2.mp4',
-    'animales_repro': '/Videos/reino_animal_3.mp4',
-    'plantas_partes': '/Videos/Plantas_1.mp4',
-    'plantas_tallos': '/Videos/Plantas_2.mp4',
+    'animales_intro': 'https://youtu.be/_nCkrYKet4s',
+    'animales_dieta': 'https://youtu.be/ycRvmh4bgX4',
+    'animales_repro': 'https://youtu.be/PzKjZ3ibOYk',
+    'plantas_partes': 'https://youtu.be/NmJ02tnJb_g',
+    'plantas_tallos': 'https://youtu.be/1xEb6ESa-Uk',
     'eco_intro': '/Videos/Ecosistema.mp4',
-    'eco_solar': '/Videos/Sistema_Solar.mp4',
-    'eco_estaciones': '/Videos/Estaciones.mp4',
+    'eco_solar': 'https://youtu.be/pu4DOE2hDKg',
+    'eco_estaciones': 'https://youtu.be/C7JgI5MvuhA',
 };
+
 
 // === 4. IMPORTACIÓN DE ACTIVIDADES (JUEGOS) ===
 import CiAct1UnirSeñas from "../modules/CiAct1UnirSeñas";

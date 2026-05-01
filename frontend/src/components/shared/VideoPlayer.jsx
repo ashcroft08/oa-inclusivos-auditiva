@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Play, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 
 const VideoPlayer = ({
   videoSrc,
@@ -10,13 +11,9 @@ const VideoPlayer = ({
   className = ""
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useRef(null);
 
   const handlePlayVideo = () => {
     setIsPlaying(true);
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
   };
 
   return (
@@ -49,15 +46,21 @@ const VideoPlayer = ({
           </div>
         ) : null}
 
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          className="w-full h-full object-contain"
-          controls={isPlaying}
-          onEnded={onVideoEnd}
-        >
-          Tu navegador no soporta la reproducción de videos.
-        </video>
+        <div className="w-full h-full">
+          <ReactPlayer
+            url={videoSrc}
+            playing={isPlaying}
+            controls={isPlaying}
+            width="100%"
+            height="100%"
+            onEnded={onVideoEnd}
+            config={{
+              youtube: {
+                playerVars: { showinfo: 1, modestbranding: 1, rel: 0 }
+              }
+            }}
+          />
+        </div>
       </div>
 
       <div className="mt-4 flex justify-center gap-4">
@@ -72,4 +75,4 @@ const VideoPlayer = ({
   );
 };
 
-export default VideoPlayer;
+export default VideoPlayer;
