@@ -12,7 +12,9 @@ const VideoPlayer = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [hasEnded, setHasEnded] = useState(false);
   const playerContainerRef = useRef(null);
+  const endedFiredRef = useRef(false);
 
   const handlePlayVideo = () => {
     setIsPlaying(true);
@@ -23,8 +25,17 @@ const VideoPlayer = ({
     setHasError(true);
   };
 
-  // Callback estable para onVideoEnd
-  const stableOnVideoEnd = useCallback(() => {
+  // Handler unificado para cuando el video termina
+  const handleVideoEnded = useCallback(() => {
+    // Evitar que se dispare múltiples veces
+    if (endedFiredRef.current) return;
+    endedFiredRef.current = true;
+
+    // CLAVE: Detener la reproducción para que react-player NO reinicie el video
+    setIsPlaying(false);
+    setHasEnded(true);
+
+    // Notificar al componente padre
     if (onVideoEnd) {
       onVideoEnd();
     }
@@ -35,28 +46,37 @@ const VideoPlayer = ({
   useEffect(() => {
     if (!isPlaying || !playerContainerRef.current) return;
 
-    // Dar tiempo al player a montar el custom element
-    const timeoutId = setTimeout(() => {
+    let ytElement = null;
+    let handleEnded = null;
+
+    // Buscar el <youtube-video> custom element periódicamente hasta encontrarlo
+    const intervalId = setInterval(() => {
       const container = playerContainerRef.current;
       if (!container) return;
 
-      // Buscar el <youtube-video> custom element dentro del contenedor
-      const ytElement = container.querySelector('youtube-video');
+      ytElement = container.querySelector('youtube-video');
       if (ytElement) {
-        const handleEnded = () => {
-          stableOnVideoEnd();
-        };
+        clearInterval(intervalId);
+        handleEnded = () => handleVideoEnded();
         ytElement.addEventListener('ended', handleEnded);
-
-        // Cleanup
-        return () => {
-          ytElement.removeEventListener('ended', handleEnded);
-        };
       }
-    }, 2000); // Esperar a que el iframe de YouTube se cargue
+    }, 500);
 
-    return () => clearTimeout(timeoutId);
-  }, [isPlaying, stableOnVideoEnd]);
+    return () => {
+      clearInterval(intervalId);
+      if (ytElement && handleEnded) {
+        ytElement.removeEventListener('ended', handleEnded);
+      }
+    };
+  }, [isPlaying, handleVideoEnded]);
+
+  // Resetear estados si cambia la URL del video (nueva actividad)
+  useEffect(() => {
+    setIsPlaying(false);
+    setHasEnded(false);
+    setHasError(false);
+    endedFiredRef.current = false;
+  }, [videoSrc]);
 
   return (
     <div className={`bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl ${className}`}>
@@ -89,7 +109,7 @@ const VideoPlayer = ({
               Recargar página
             </button>
           </div>
-        ) : !isPlaying ? (
+        ) : !isPlaying && !hasEnded ? (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-br from-purple-600/20 to-blue-600/20">
             <button
               onClick={handlePlayVideo}
@@ -104,10 +124,10 @@ const VideoPlayer = ({
           <ReactPlayer
             src={videoSrc}
             playing={isPlaying}
-            controls={isPlaying}
+            controls
             width="100%"
             height="100%"
-            onEnded={stableOnVideoEnd}
+            onEnded={handleVideoEnded}
             onError={handleError}
             config={{
               youtube: {
