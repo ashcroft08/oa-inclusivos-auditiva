@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import { ProgressProvider, useProgress } from './context/ProgressContext.jsx';
 import { courseService } from './services/index.js';
@@ -53,6 +53,7 @@ const OAApp = () => {
     const { isTeacher, course, user, logout } = useAuth();
     const { completedActivities, completeActivity, resetAllProgress, getCurrentResource } = useProgress();
     const location = useLocation();
+    const navigate = useNavigate();
     
     // Estado para módulos visibles (desde backend)
     const [visibleModules, setVisibleModules] = useState({});
@@ -131,12 +132,12 @@ const OAApp = () => {
      */
     const handleNavigate = (target, moduleId = null) => {
         if (target === 'home') {
-            window.location.href = '/oa';
+            navigate('/oa');
         } else if (target === 'completion') {
-            window.location.href = `/oa/completion/${moduleId}`;
+            navigate(`/oa/completion/${moduleId}`);
         } else {
-            // Navegar a actividad
-            window.location.href = `/oa/module/${moduleId}/activity/${target}`;
+            // Navegar a actividad usando React Router (preserva estado en memoria)
+            navigate(`/oa/module/${moduleId}/activity/${target}`);
         }
     };
 
