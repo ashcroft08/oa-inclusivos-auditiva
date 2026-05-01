@@ -66,7 +66,7 @@ const VideoPlayer = ({
 
         <div className="w-full h-full">
           <ReactPlayer
-            url={videoSrc}
+            src={videoSrc}
             playing={isPlaying}
             controls={isPlaying}
             width="100%"
