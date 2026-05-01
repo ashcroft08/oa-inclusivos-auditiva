@@ -27,29 +27,49 @@ const VideoPlayer = ({
 
   // Handler unificado para cuando el video termina
   const handleVideoEnded = useCallback(() => {
-    // Evitar que se dispare múltiples veces
     if (endedFiredRef.current) return;
     endedFiredRef.current = true;
 
-    // CLAVE: Detener la reproducción para que react-player NO reinicie el video
     setIsPlaying(false);
     setHasEnded(true);
 
-    // Notificar al componente padre
     if (onVideoEnd) {
       onVideoEnd();
     }
   }, [onVideoEnd]);
 
-  // Escuchar el evento "ended" directamente del custom element <youtube-video>
-  // Esto es más fiable que el prop onEnded de react-player v3
+  // ESTRATEGIA PRINCIPAL: Sondeo (polling) del progreso del video
+  // No depende de eventos de YouTube que pueden ser bloqueados por ad blockers
   useEffect(() => {
-    if (!isPlaying || !playerContainerRef.current) return;
+    if (!isPlaying || hasEnded || !playerContainerRef.current) return;
+
+    const pollInterval = setInterval(() => {
+      const container = playerContainerRef.current;
+      if (!container) return;
+
+      const ytElement = container.querySelector('youtube-video');
+      if (!ytElement) return;
+
+      const currentTime = ytElement.currentTime;
+      const duration = ytElement.duration;
+
+      // Si el video tiene duración válida y está a menos de 2 segundos del final
+      if (duration && duration > 0 && currentTime > 0 && currentTime >= duration - 2) {
+        handleVideoEnded();
+      }
+    }, 1000); // Revisar cada segundo
+
+    return () => clearInterval(pollInterval);
+  }, [isPlaying, hasEnded, handleVideoEnded]);
+
+  // ESTRATEGIA SECUNDARIA: Escuchar el evento "ended" directamente
+  // (funciona cuando no hay ad blocker)
+  useEffect(() => {
+    if (!isPlaying || hasEnded || !playerContainerRef.current) return;
 
     let ytElement = null;
     let handleEnded = null;
 
-    // Buscar el <youtube-video> custom element periódicamente hasta encontrarlo
     const intervalId = setInterval(() => {
       const container = playerContainerRef.current;
       if (!container) return;
@@ -68,7 +88,7 @@ const VideoPlayer = ({
         ytElement.removeEventListener('ended', handleEnded);
       }
     };
-  }, [isPlaying, handleVideoEnded]);
+  }, [isPlaying, hasEnded, handleVideoEnded]);
 
   // Resetear estados si cambia la URL del video (nueva actividad)
   useEffect(() => {
@@ -134,8 +154,7 @@ const VideoPlayer = ({
                 playerVars: { 
                   autoplay: 1,
                   modestbranding: 1, 
-                  rel: 0,
-                  origin: window.location.origin
+                  rel: 0
                 }
               }
             }}
