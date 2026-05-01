@@ -53,11 +53,11 @@ const VideoPlayer = ({
       const currentTime = ytElement.currentTime;
       const duration = ytElement.duration;
 
-      // Si el video tiene duración válida y está a menos de 2 segundos del final
-      if (duration && duration > 0 && currentTime > 0 && currentTime >= duration - 2) {
+      // Si el video tiene duración válida y está a menos de 0.5 segundos del final
+      if (duration && duration > 0 && currentTime > 0 && currentTime >= duration - 0.5) {
         handleVideoEnded();
       }
-    }, 1000); // Revisar cada segundo
+    }, 500); // Revisar cada medio segundo
 
     return () => clearInterval(pollInterval);
   }, [isPlaying, hasEnded, handleVideoEnded]);
