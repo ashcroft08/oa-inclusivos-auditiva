@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Play, Home } from 'lucide-react';
+import { Play, Home, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/lazy';
 
 const VideoPlayer = ({
   videoSrc,
@@ -11,9 +11,15 @@ const VideoPlayer = ({
   className = ""
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const handlePlayVideo = () => {
     setIsPlaying(true);
+  };
+
+  const handleError = (e) => {
+    console.error("Error al cargar el video:", e);
+    setHasError(true);
   };
 
   return (
@@ -35,7 +41,19 @@ const VideoPlayer = ({
       </div>
 
       <div className="relative bg-gray-900 rounded-2xl overflow-hidden shadow-2xl max-w-2xl mx-auto aspect-video">
-        {!isPlaying ? (
+        {hasError ? (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-gray-800 text-white p-6 text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+            <p className="font-bold text-lg mb-2">¡Ups! No pudimos cargar el video</p>
+            <p className="text-sm text-gray-300 mb-4">Verifica tu conexión a internet o intenta recargar la página.</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors"
+            >
+              Recargar página
+            </button>
+          </div>
+        ) : !isPlaying ? (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-br from-purple-600/20 to-blue-600/20">
             <button
               onClick={handlePlayVideo}
@@ -54,9 +72,15 @@ const VideoPlayer = ({
             width="100%"
             height="100%"
             onEnded={onVideoEnd}
+            onError={handleError}
             config={{
               youtube: {
-                playerVars: { showinfo: 1, modestbranding: 1, rel: 0 }
+                playerVars: { 
+                  autoplay: 1,
+                  modestbranding: 1, 
+                  rel: 0,
+                  origin: window.location.origin
+                }
               }
             }}
           />
@@ -75,4 +99,4 @@ const VideoPlayer = ({
   );
 };
 
-export default VideoPlayer;
+export default VideoPlayer;

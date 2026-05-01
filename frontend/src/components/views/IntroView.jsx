@@ -4,7 +4,7 @@ import Header from '../shared/Header';
 import VideoPlayer from '../shared/VideoPlayer';
 import { modulesData } from '../../data/activitiesData'; 
 
-const videoFile = 'https://youtu.be/Ay9mg4mjOrw'; 
+const videoFile = 'https://www.youtube.com/watch?v=Ay9mg4mjOrw'; 
 
 const IntroView = ({ onNavigate, moduleId }) => {
     const [videoCompleted, setVideoCompleted] = useState(false);
