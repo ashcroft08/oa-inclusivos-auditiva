@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Play, Home, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
@@ -12,6 +12,7 @@ const VideoPlayer = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const playerContainerRef = useRef(null);
 
   const handlePlayVideo = () => {
     setIsPlaying(true);
@@ -21,6 +22,41 @@ const VideoPlayer = ({
     console.error("Error al cargar el video:", e);
     setHasError(true);
   };
+
+  // Callback estable para onVideoEnd
+  const stableOnVideoEnd = useCallback(() => {
+    if (onVideoEnd) {
+      onVideoEnd();
+    }
+  }, [onVideoEnd]);
+
+  // Escuchar el evento "ended" directamente del custom element <youtube-video>
+  // Esto es más fiable que el prop onEnded de react-player v3
+  useEffect(() => {
+    if (!isPlaying || !playerContainerRef.current) return;
+
+    // Dar tiempo al player a montar el custom element
+    const timeoutId = setTimeout(() => {
+      const container = playerContainerRef.current;
+      if (!container) return;
+
+      // Buscar el <youtube-video> custom element dentro del contenedor
+      const ytElement = container.querySelector('youtube-video');
+      if (ytElement) {
+        const handleEnded = () => {
+          stableOnVideoEnd();
+        };
+        ytElement.addEventListener('ended', handleEnded);
+
+        // Cleanup
+        return () => {
+          ytElement.removeEventListener('ended', handleEnded);
+        };
+      }
+    }, 2000); // Esperar a que el iframe de YouTube se cargue
+
+    return () => clearTimeout(timeoutId);
+  }, [isPlaying, stableOnVideoEnd]);
 
   return (
     <div className={`bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl ${className}`}>
@@ -64,14 +100,14 @@ const VideoPlayer = ({
           </div>
         ) : null}
 
-        <div className="w-full h-full">
+        <div className="w-full h-full" ref={playerContainerRef}>
           <ReactPlayer
             src={videoSrc}
             playing={isPlaying}
             controls={isPlaying}
             width="100%"
             height="100%"
-            onEnded={onVideoEnd}
+            onEnded={stableOnVideoEnd}
             onError={handleError}
             config={{
               youtube: {
