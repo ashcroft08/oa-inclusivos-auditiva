@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Play, Home, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ReactPlayer from 'react-player/lazy';
+import ReactPlayer from 'react-player';
 
 const VideoPlayer = ({
   videoSrc,
