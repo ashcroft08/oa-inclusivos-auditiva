@@ -128,6 +128,28 @@ export const AuthProvider = ({ children }) => {
         initializeAuth();
     };
 
+    /**
+     * Inicio de sesión manual (para desarrollo/pruebas)
+     */
+    const login = (role) => {
+        const userData = { 
+            id: role === 'teacher' ? '999' : '888', 
+            name: role === 'teacher' ? 'Docente de Prueba' : 'Estudiante de Prueba' 
+        };
+        const courseData = { id: '2', title: 'Curso de Prueba' };
+        const rolesData = role === 'teacher' ? ['Instructor'] : ['Learner'];
+
+        setUser(userData);
+        setCourse(courseData);
+        setRoles(rolesData);
+
+        localStorage.setItem('oa_user', JSON.stringify(userData));
+        localStorage.setItem('oa_course', JSON.stringify(courseData));
+        localStorage.setItem('oa_roles', JSON.stringify(rolesData));
+        
+        setIsLoading(false);
+    };
+
     // Valores derivados
     const isAuthenticated = !!user;
     const isTeacher = ltiService.isTeacher(roles);
@@ -147,6 +169,7 @@ export const AuthProvider = ({ children }) => {
         isStudent,
         
         // Acciones
+        login,
         logout,
         refresh
     };

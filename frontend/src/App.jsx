@@ -11,6 +11,7 @@ import { courseService } from './services/index.js';
 
 // Vistas
 import NoSessionView from './components/views/NoSessionView.jsx';
+import LoginView from './components/views/LoginView.jsx';
 import StudentPanel from './components/views/StudentPanel.jsx';
 import ActivityView from './components/views/ActivityView.jsx';
 import CompletionView from './components/views/CompletionView.jsx';
@@ -26,7 +27,7 @@ import './App.css';
  * Rutas protegidas que requieren autenticación
  */
 const ProtectedRoute = ({ children }) => {
-    const { isAuthenticated, isLoading } = useAuth();
+    const { isAuthenticated, isLoading, login } = useAuth();
 
     if (isLoading) {
         return (
@@ -40,7 +41,7 @@ const ProtectedRoute = ({ children }) => {
     }
 
     if (!isAuthenticated) {
-        return <NoSessionView />;
+        return <LoginView onLogin={login} />;
     }
 
     return children;

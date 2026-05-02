@@ -25,8 +25,7 @@ const StudentPanel = ({ onNavigate, visibleModules, completedActivities = new Se
         }
 
         // 2. Si no hay marcador, buscar la primera actividad no completada
-        const activities = selectedModule.activities.filter(a => a.activity !== 'video');
-        const firstUncompleted = activities.find(a => !completedActivities.has(a.id));
+        const firstUncompleted = selectedModule.activities.find(a => !completedActivities.has(a.id));
         
         // Si hay una no completada, ir a ella; si no, ir a la primera (video intro)
         const targetActivity = firstUncompleted || selectedModule.activities[0];
@@ -40,7 +39,7 @@ const StudentPanel = ({ onNavigate, visibleModules, completedActivities = new Se
      * Calcula el progreso de un módulo (sin contar videos)
      */
     const getModuleProgress = (module) => {
-        const activities = module.activities.filter(a => a.activity !== 'video');
+        const activities = module.activities;
         const completed = activities.filter(a => completedActivities.has(a.id)).length;
         return {
             completed,
