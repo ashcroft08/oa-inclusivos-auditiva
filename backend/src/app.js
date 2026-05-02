@@ -27,6 +27,11 @@ export const createApp = () => {
     // MIDDLEWARES GLOBALES
     // ============================================
 
+    // Confiar en el proxy reverso (Cloudflare)
+    // Necesario para que Express sepa que la conexión original es HTTPS
+    // y pueda establecer cookies con secure: true
+    app.set('trust proxy', 1);
+
     // CORS
     app.use(cors({
         origin: corsConfig.origins,
