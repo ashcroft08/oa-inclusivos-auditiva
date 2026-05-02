@@ -173,7 +173,7 @@ const EcoAct5EtiquetaSistema = ({ onComplete }) => {
                 {/* 1. IMAGEN DEL SISTEMA SOLAR */}
                 <div className="relative w-full aspect-[16/7] max-h-[550px] overflow-hidden rounded-lg border border-gray-600 bg-black">
                     {sistemaSolarUrl && (
-                        <img src={sistemaSolarUrl} alt="Sistema Solar" className="w-full h-full object-contain" />
+                        <img src={sistemaSolarUrl} alt="Sistema Solar" className="w-full h-full object-contain" loading="lazy" />
                     )}
 
                     {/* Zonas de Drop */}

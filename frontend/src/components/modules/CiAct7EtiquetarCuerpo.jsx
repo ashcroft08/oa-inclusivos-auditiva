@@ -144,7 +144,7 @@ const CiAct7EtiquetarCuerpo = ({ onComplete }) => {
 
                 {/* ÁREA DE IMAGEN */}
                 <div className="md:w-3/4 relative flex justify-center p-6 bg-white rounded-xl shadow-2xl border border-blue-200 min-h-[650px]">
-                    <img src={cuerpoUrl} alt="Cuerpo" className="max-h-full max-w-full object-contain" />
+                    <img src={cuerpoUrl} alt="Cuerpo" className="max-h-full max-w-full object-contain" loading="lazy" />
 
                     {TARGET_ZONES.map(zone => {
                         const partId = Object.keys(locations).find(key => locations[key] === zone.id);

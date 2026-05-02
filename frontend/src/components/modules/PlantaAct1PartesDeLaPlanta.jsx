@@ -202,6 +202,7 @@ const PlantaAct1PartesDeLaPlanta = ({ onComplete }) => {
                         src={plantaUrl}
                         alt="Esquema de una Planta Completa"
                         className="max-h-full max-w-full object-contain"
+                        loading="lazy"
                         style={{ height: '650px', width: 'auto' }}
                     />
 
