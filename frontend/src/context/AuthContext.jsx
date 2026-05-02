@@ -40,6 +40,13 @@ export const AuthProvider = ({ children }) => {
         setError(null);
 
         try {
+            // 0. Si el usuario cerró sesión manualmente en esta pestaña, no auto-loguear
+            const isManualLogout = sessionStorage.getItem('oa_manual_logout');
+            if (isManualLogout) {
+                setIsLoading(false);
+                return;
+            }
+
             // 1. Intentar leer parámetros de URL (vienen del LTI launch inicial)
             const ltiParams = ltiService.parseLTIParams();
             
@@ -111,6 +118,9 @@ export const AuthProvider = ({ children }) => {
         } catch (err) {
             console.error('Error en logout:', err);
         } finally {
+            // Marcar que el usuario cerró sesión manualmente
+            sessionStorage.setItem('oa_manual_logout', 'true');
+            
             localStorage.removeItem('oa_user');
             localStorage.removeItem('oa_course');
             localStorage.removeItem('oa_roles');

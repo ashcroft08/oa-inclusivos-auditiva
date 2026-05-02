@@ -8,6 +8,7 @@ import { AlertCircle, ExternalLink, RefreshCw } from 'lucide-react';
 
 const NoSessionView = () => {
     const handleRetry = () => {
+        sessionStorage.removeItem('oa_manual_logout');
         window.location.reload();
     };
 

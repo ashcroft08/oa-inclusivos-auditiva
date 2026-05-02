@@ -171,9 +171,9 @@ const OAApp = () => {
                         completedActivities={completedActivities}
                         getCurrentResource={getCurrentResource}
                         user={user}
-                        onLogout={() => {
-                            logout();
-                            window.location.href = '/';
+                        onLogout={async () => {
+                            await logout();
+                            navigate('/oa');
                         }}
                     />
                 } 
