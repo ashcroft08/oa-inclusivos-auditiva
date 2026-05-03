@@ -119,9 +119,12 @@ const CiAct6SenasSentidos = ({ onComplete }) => {
         } else {
             // ⭐ CUANDO TERMINA EL QUIZ
             setIsQuizComplete(true);
-            onComplete(true); // Descomentado para permitir avanzar a la siguiente actividad
+            // Solo avanzamos si el puntaje es perfecto
+            if (score === quizData.length) {
+                onComplete(true);
+            }
         }
-    }, [currentQuestionIndex, quizData.length]);
+    }, [currentQuestionIndex, quizData.length, score, onComplete]);
 
 
     // --- Manejo de Respuesta ---

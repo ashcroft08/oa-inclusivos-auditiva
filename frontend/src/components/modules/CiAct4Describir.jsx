@@ -207,22 +207,8 @@ const CiAct4Describir = ({ onComplete }) => {
 
             {/* ⭐ CONTROL DE BOTONES UNIFICADO */}
             <div className="flex gap-6 mt-10">
-
-                {/* 1. Botón Reiniciar Actividad (Siempre visible/prioritario) */}
-                <button
-                    onClick={reiniciarActividadCompleta}
-                    // Si está verificado, le damos el color principal (azul). Si no, un color secundario (índigo).
-                    className={`px-8 py-4 text-white font-bold text-lg rounded-full shadow-xl 
-                    hover:scale-105 transition-all ${verificado
-                            ? "bg-blue-600 hover:bg-blue-700"
-                            : "bg-indigo-600 hover:bg-indigo-700"
-                        }`}
-                >
-                    🔄 Reiniciar actividad
-                </button>
-
                 {!verificado && (
-                    // 2. Botón de Verificar (Solo visible antes de verificar)
+                    // 1. Botón de Verificar (Ahora a la izquierda)
                     <button
                         onClick={verificar}
                         disabled={seleccionadas.length === 0}
@@ -234,6 +220,18 @@ const CiAct4Describir = ({ onComplete }) => {
                         ✅ Verificar
                     </button>
                 )}
+
+                {/* 2. Botón Reiniciar Actividad (Ahora a la derecha) */}
+                <button
+                    onClick={reiniciarActividadCompleta}
+                    className={`px-8 py-4 text-white font-bold text-lg rounded-full shadow-xl 
+                    hover:scale-105 transition-all ${verificado
+                            ? "bg-blue-600 hover:bg-blue-700"
+                            : "bg-indigo-600 hover:bg-indigo-700"
+                        }`}
+                >
+                    🔄 Reiniciar actividad
+                </button>
             </div>
 
             {/* Mensaje final */}

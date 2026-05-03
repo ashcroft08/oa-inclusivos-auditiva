@@ -239,13 +239,6 @@ const AniAct2ClasificarTabla = ({ onComplete }) => {
 
             <div className="mt-8 flex flex-col items-center gap-4 pb-4">
                 <div className="flex gap-6">
-                    <button
-                        onClick={loadRandomAnimals}
-                        className="px-10 py-4 bg-indigo-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-indigo-700 transition-all active:scale-95"
-                    >
-                        🔄 Reiniciar actividad
-                    </button>
-
                     {!verified && (
                         <button
                             onClick={handleVerify}
@@ -254,6 +247,13 @@ const AniAct2ClasificarTabla = ({ onComplete }) => {
                             ✅ Verificar respuestas
                         </button>
                     )}
+
+                    <button
+                        onClick={loadRandomAnimals}
+                        className="px-10 py-4 bg-indigo-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-indigo-700 transition-all active:scale-95"
+                    >
+                        🔄 Reiniciar actividad
+                    </button>
                 </div>
 
                 {verified && (

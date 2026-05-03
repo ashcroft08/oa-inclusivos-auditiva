@@ -235,15 +235,6 @@ const PlantaAct4Necesidades = ({ onComplete }) => {
 
             {/* Botones de control */}
             <div className="flex gap-6 mt-10">
-                {!(verificado && isPerfect) && (
-                    <button
-                        onClick={reiniciar}
-                        className="px-10 py-4 bg-indigo-600 text-white font-bold text-lg rounded-full shadow-xl hover:bg-indigo-700 hover:scale-105 transition-all"
-                    >
-                        🔄 Reiniciar actividad
-                    </button>
-                )}
-
                 {!verificado && (
                     <button
                         onClick={verificar}
@@ -252,6 +243,15 @@ const PlantaAct4Necesidades = ({ onComplete }) => {
                             }`}
                     >
                         ✅ Verificar
+                    </button>
+                )}
+
+                {!(verificado && isPerfect) && (
+                    <button
+                        onClick={reiniciar}
+                        className="px-10 py-4 bg-indigo-600 text-white font-bold text-lg rounded-full shadow-xl hover:bg-indigo-700 hover:scale-105 transition-all"
+                    >
+                        🔄 Reiniciar actividad
                     </button>
                 )}
             </div>

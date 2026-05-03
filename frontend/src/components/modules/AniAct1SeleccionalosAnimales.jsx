@@ -248,13 +248,6 @@ const AniAct1SeleccionalosAnimales = ({ onComplete }) => {
 
             {/* Botones de Control */}
             <div className="mt-8 flex gap-6">
-                <button
-                    onClick={reset}
-                    className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-full shadow-lg hover:bg-indigo-700 transition-all"
-                >
-                    🔄 Reiniciar actividad
-                </button>
-                
                 {!verified && (
                     <button
                         onClick={verify}
@@ -265,6 +258,13 @@ const AniAct1SeleccionalosAnimales = ({ onComplete }) => {
                         ✅ Verificar
                     </button>
                 )}
+
+                <button
+                    onClick={reset}
+                    className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-full shadow-lg hover:bg-indigo-700 transition-all"
+                >
+                    🔄 Reiniciar actividad
+                </button>
             </div>
 
             {/* Mensaje de Feedback */}
