@@ -3,7 +3,7 @@ import { HelpCircle } from "lucide-react";
 import InstructionModal from "../shared/InstructionModal";
 
 // 1. Importaciones dinámicas de imágenes
-const senasImport = import.meta.glob("../../assets/senas/*.{png,jpg,jpeg,webp}", { eager: false });
+const senasImport = import.meta.glob("../../assets/senas/*.webp", { eager: false });
 const imagenesImport = import.meta.glob("../../assets/images/*.{png,jpg,jpeg,webp}", { eager: false });
 
 // --- LÓGICA DE AGRUPACIÓN Y CARGA DE IMÁGENES ---

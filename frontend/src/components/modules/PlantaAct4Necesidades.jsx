@@ -31,7 +31,7 @@ const PREGUNTAS_POOL = [
     {
         id: 'necesidades_planta',
         pregunta: "¿Qué necesita esta planta para vivir?",
-        imagenBase: 'planta_feliz',
+        imagenBase: 'planta_feliz (2)',
         correctas: ["Agua", "Sol", "Tierra", "Aire"],
         distractores: ["Azúcar", "Sal", "Refresco", "Nieve", "Piedras", "Helado"],
     },

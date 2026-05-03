@@ -6,7 +6,7 @@ import bipError from "../../assets/sounds/error_bip.mp3";
 import sonidoCorrectoFile from "../../assets/sounds/correcto.mp3";
 
 // 🔹 Cargar automáticamente las imágenes de señas (asumo que estas funciones están en el archivo)
-const senas = import.meta.glob("../../assets/senas/*.{png,jpg,jpeg,webp,JPG}", { eager: true });
+const senas = import.meta.glob("../../assets/senas/*.webp", { eager: true });
 const sonidoError = new Audio(bipError);
 sonidoError.volume = 0.3; // volumen moderado
 const sonidoCorrecto = new Audio(sonidoCorrectoFile);

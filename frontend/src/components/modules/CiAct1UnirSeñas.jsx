@@ -3,7 +3,7 @@ import { HelpCircle } from "lucide-react";
 import InstructionModal from "../shared/InstructionModal";
 
 // Cargar automáticamente todas las imágenes desde las carpetas
-const senasImport = import.meta.glob("../../assets/senas/*.{png,jpg,jpeg,webp}");
+const senasImport = import.meta.glob("../../assets/senas/*.webp");
 const imagenesImport = import.meta.glob("../../assets/images/*.{png,jpg,jpeg,webp}");
 
 // Función auxiliar: agrupa las imágenes por nombre base (ej. "bebe1", "bebe2" → "bebe")

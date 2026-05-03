@@ -11,14 +11,14 @@ import { useProgress } from "../../context/ProgressContext";
 // === 2. MAPA DE VIDEOS (Archivos estáticos en public/Videos y YouTube) ===
 const videoMap = {
     'ciclo_intro': 'https://www.youtube.com/watch?v=Ay9mg4mjOrw',
-    'ciclo_etapas': '/Videos/ciclo_vida_plantas.mp4',
-    'ciclo_sentidos': '/Videos/cinco_sentidos.mp4',
+    'ciclo_etapas': 'https://www.youtube.com/watch?v=L9TBMnpJujM',
+    'ciclo_sentidos': 'https://www.youtube.com/watch?v=V2LigiVUCyg',
     'animales_intro': 'https://www.youtube.com/watch?v=_nCkrYKet4s',
     'animales_dieta': 'https://www.youtube.com/watch?v=ycRvmh4bgX4',
     'animales_repro': 'https://www.youtube.com/watch?v=PzKjZ3ibOYk',
     'plantas_partes': 'https://www.youtube.com/watch?v=NmJ02tnJb_g',
     'plantas_tallos': 'https://www.youtube.com/watch?v=1xEb6ESa-Uk',
-    'eco_intro': '/Videos/Ecosistema.mp4',
+    'eco_intro': 'https://www.youtube.com/watch?v=7aBNHYZduMk',
     'eco_solar': 'https://www.youtube.com/watch?v=pu4DOE2hDKg',
     'eco_estaciones': 'https://www.youtube.com/watch?v=C7JgI5MvuhA',
 };

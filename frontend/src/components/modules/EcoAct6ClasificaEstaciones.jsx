@@ -39,7 +39,7 @@ const FENOMENOS_POOL = [
     { id: 'lluvia_suave', name: 'Lluvias suaves', imageBase: 'lluvia_icon', season: 'primavera' },
     { id: 'pajaros', name: 'Nacimiento de aves', imageBase: 'pollito_icon1', season: 'primavera' },
 
-    { id: 'sol_fuerte', name: 'Calor intenso', imageBase: 'sol_fuerte_icon1', season: 'verano' },
+    { id: 'sol_fuerte', name: 'Calor intenso', imageBase: 'sol_fuerte_icon', season: 'verano' },
     { id: 'frutos_maduros', name: 'Frutos maduros', imageBase: 'fruta_icon1', season: 'verano' },
     { id: 'sequia', name: 'Sequía', imageBase: 'sequia_icon1', season: 'verano' },
 

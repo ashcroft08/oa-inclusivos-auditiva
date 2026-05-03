@@ -4,7 +4,7 @@ import InstructionModal from "../shared/InstructionModal";
 
 // --- Lógica de Carga de Imágenes (Reutilizada) ---
 const imagenesImport = import.meta.glob("../../assets/images/*.{png,jpg,jpeg,webp}", { eager: false });
-const senasImport = import.meta.glob("../../assets/senas/*.{png,jpg,jpeg,webp}", { eager: false });
+const senasImport = import.meta.glob("../../assets/senas/*.webp", { eager: false });
 
 // Función auxiliar para encontrar la URL de una imagen por su nombre base
 const loadImageUrlByName = async (nombreBase) => {

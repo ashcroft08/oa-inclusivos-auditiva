@@ -5,7 +5,7 @@ import InstructionModal from "../shared/InstructionModal";
 
 // --- Lógica de Carga de Imágenes (Reutilizada) ---
 const imagenesImport = import.meta.glob("../../assets/images/*.{png,jpg,jpeg,webp,PNG,JPG}", { eager: true });
-const senasImport = import.meta.glob("../../assets/senas/*.{png,jpg,jpeg,webp,PNG,JPG}", { eager: true });
+const senasImport = import.meta.glob("../../assets/senas/*.webp", { eager: true });
 
 const loadImageUrlByName = (nombreBase) => {
     const allImports = { ...imagenesImport, ...senasImport };
