@@ -134,6 +134,12 @@ const ActivityView = ({
         setShowAnimation(false);
     }, [activityId]);
 
+    // --- DEFINICIÓN DE VARIABLES DE ESTADO DERIVADAS ---
+    const isVideo = currentActivity.activity === 'video';
+    const ActivityComponent = !isVideo ? activityComponents[currentActivity.activity] : null;
+    const isCompleted = completedActivities.has(activityId);
+    const isNextEnabled = isCompleted || (isVideo && videoCompleted) || DEBUG_MODE;
+
     // Registro OnMount: marcar el recurso actual al renderizar
     useEffect(() => {
         if (activityId && moduleId) {
@@ -148,7 +154,7 @@ const ActivityView = ({
         }
     }, [activityId, moduleId, setCurrentResource, isVideo, currentActivity.videoKey]);
 
-    // Ocultar el Sidebar en pantallas pequeñas automáticamente (eliminamos el auto-open en desktop para que sea por defecto cerrado)
+    // Ocultar el Sidebar en pantallas pequeñas automáticamente
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 1024 && isSidebarOpen) {
@@ -159,7 +165,7 @@ const ActivityView = ({
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [isSidebarOpen]);
 
     // --- FUNCIONES DE NAVEGACIÓN ---
     const handleNext = () => {
@@ -206,15 +212,8 @@ const ActivityView = ({
         }
     };
 
-    // Validación de seguridad
-    if (currentIndex === -1 || !currentModule) return <div className="p-10">Cargando...</div>;
-
-    const isVideo = currentActivity.activity === 'video';
-    const ActivityComponent = !isVideo ? activityComponents[currentActivity.activity] : null;
-    const isCompleted = completedActivities.has(activityId);
-
-    // Permitir avance
-    const isNextEnabled = isCompleted || (isVideo && videoCompleted) || DEBUG_MODE;
+    // Validación de seguridad (necesaria antes de usar props de sub-objetos)
+    if (currentIndex === -1 || !currentModule) return <div className="p-10 text-center font-bold">Cargando...</div>;
 
     // Selector de fondo dependiendo si es video o actividad
     const gradientBgClass = isVideo
