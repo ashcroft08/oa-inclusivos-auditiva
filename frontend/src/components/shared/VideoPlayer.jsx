@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Play, Home, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ReactPlayer from 'react-player/youtube';
+import ReactPlayer from 'react-player';
 
 const VideoPlayer = ({
   videoSrc,
