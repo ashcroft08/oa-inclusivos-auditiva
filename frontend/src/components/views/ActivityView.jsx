@@ -10,17 +10,17 @@ import { useProgress } from "../../context/ProgressContext";
 
 // === 2. MAPA DE VIDEOS (Archivos estáticos en public/Videos y YouTube) ===
 const videoMap = {
-    'ciclo_intro': 'https://www.youtube.com/watch?v=Ay9mg4mjOrw',
-    'ciclo_etapas': 'https://www.youtube.com/watch?v=L9TBMnpJujM',
-    'ciclo_sentidos': 'https://www.youtube.com/watch?v=V2LigiVUCyg',
-    'animales_intro': 'https://www.youtube.com/watch?v=_nCkrYKet4s',
-    'animales_dieta': 'https://www.youtube.com/watch?v=ycRvmh4bgX4',
-    'animales_repro': 'https://www.youtube.com/watch?v=PzKjZ3ibOYk',
-    'plantas_partes': 'https://www.youtube.com/watch?v=NmJ02tnJb_g',
-    'plantas_tallos': 'https://www.youtube.com/watch?v=1xEb6ESa-Uk',
-    'eco_intro': 'https://www.youtube.com/watch?v=7aBNHYZduMk',
-    'eco_solar': 'https://www.youtube.com/watch?v=pu4DOE2hDKg',
-    'eco_estaciones': 'https://www.youtube.com/watch?v=C7JgI5MvuhA',
+    'ciclo_intro': 'https://www.youtube.com/embed/Ay9mg4mjOrw',
+    'ciclo_etapas': 'https://www.youtube.com/embed/L9TBMnpJujM',
+    'ciclo_sentidos': 'https://www.youtube.com/embed/V2LigiVUCyg',
+    'animales_intro': 'https://www.youtube.com/embed/_nCkrYKet4s',
+    'animales_dieta': 'https://www.youtube.com/embed/ycRvmh4bgX4',
+    'animales_repro': 'https://www.youtube.com/embed/PzKjZ3ibOYk',
+    'plantas_partes': 'https://www.youtube.com/embed/NmJ02tnJb_g',
+    'plantas_tallos': 'https://www.youtube.com/embed/1xEb6ESa-Uk',
+    'eco_intro': 'https://www.youtube.com/embed/7aBNHYZduMk',
+    'eco_solar': 'https://www.youtube.com/embed/pu4DOE2hDKg',
+    'eco_estaciones': 'https://www.youtube.com/embed/C7JgI5MvuhA',
 };
 
 
@@ -138,8 +138,15 @@ const ActivityView = ({
     useEffect(() => {
         if (activityId && moduleId) {
             setCurrentResource(activityId, moduleId);
+            if (isVideo) {
+                console.log("DEBUG - ActivityView:", {
+                    activityId,
+                    videoKey: currentActivity.videoKey,
+                    url: videoMap[currentActivity.videoKey]
+                });
+            }
         }
-    }, [activityId, moduleId, setCurrentResource]);
+    }, [activityId, moduleId, setCurrentResource, isVideo, currentActivity.videoKey]);
 
     // Ocultar el Sidebar en pantallas pequeñas automáticamente (eliminamos el auto-open en desktop para que sea por defecto cerrado)
     useEffect(() => {

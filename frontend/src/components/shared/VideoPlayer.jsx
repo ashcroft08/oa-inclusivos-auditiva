@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Play, Home, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/youtube';
 
 const VideoPlayer = ({
   videoSrc,
@@ -45,6 +45,9 @@ const VideoPlayer = ({
     setHasError(false);
     endedFiredRef.current = false;
   }, [videoSrc]);
+
+  // Normalizar la URL (asegurar que es un string válido para YouTube)
+  const normalizedUrl = typeof videoSrc === 'string' ? videoSrc.trim() : '';
 
   return (
     <div className={`bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl ${className}`}>
@@ -90,7 +93,7 @@ const VideoPlayer = ({
 
         <div className="w-full h-full" ref={playerContainerRef}>
           <ReactPlayer
-            url={videoSrc}
+            url={normalizedUrl}
             playing={isPlaying}
             controls
             width="100%"
@@ -104,7 +107,8 @@ const VideoPlayer = ({
                   autoplay: 1,
                   modestbranding: 1, 
                   rel: 0,
-                  showinfo: 0
+                  showinfo: 0,
+                  iv_load_policy: 3
                 }
               }
             }}
