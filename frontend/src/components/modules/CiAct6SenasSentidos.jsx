@@ -206,14 +206,26 @@ const CiAct6SenasSentidos = ({ onComplete }) => {
                         className="w-64 h-64 object-contain border-4 border-purple-300 rounded-xl shadow-md bg-white"
                         style={{ filter: feedback ? 'grayscale(50%)' : 'none' }}
                     />
-                    {/* Feedback de la respuesta actual */}
-                    {feedback && (
-                        <div className={`mt-4 p-3 rounded-lg font-bold text-xl w-4/5 text-center 
-                            ${feedback === 'correct' ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}
-                        >
-                            {feedback === 'correct' ? '¡Correcto! ✅' : 'Incorrecto ❌'}
-                        </div>
-                    )}
+                    {/* Feedback de la respuesta actual con animaciones premium */}
+                    <div className="h-20 flex items-center justify-center mt-4 w-full">
+                        {feedback && (
+                            <div className={`
+                                flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-2xl shadow-lg border-2
+                                transform transition-all duration-300 animate-in zoom-in slide-in-from-bottom-4
+                                ${feedback === 'correct' 
+                                    ? 'bg-green-100 text-green-700 border-green-300 ring-4 ring-green-100' 
+                                    : 'bg-red-100 text-red-700 border-red-300 ring-4 ring-red-100 animate-shake'}
+                            `}>
+                                <span className="text-3xl">
+                                    {feedback === 'correct' ? '✨' : '⚠️'}
+                                </span>
+                                {feedback === 'correct' ? '¡CORRECTO!' : '¡CASI! INTENTA OTRA'}
+                                <span className="text-3xl">
+                                    {feedback === 'correct' ? '✅' : '❌'}
+                                </span>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* 2. Columna Derecha: OPCIONES DE RESPUESTA */}
