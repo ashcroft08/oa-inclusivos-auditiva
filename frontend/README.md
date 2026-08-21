@@ -1,16 +1,44 @@
-# React + Vite
+# Frontend — OA Inclusivos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SPA de los Objetos de Aprendizaje. La documentación completa del proyecto
+(arquitectura, despliegue y configuración LTI) está en el
+[README de la raíz](../README.md).
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React 19 · Vite 7 · Tailwind CSS 4 · Material UI 7 · React Router 7
 
-## React Compiler
+## Scripts
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+| Comando | Descripción |
+| :--- | :--- |
+| `npm run dev` | Servidor de desarrollo en `http://localhost:5173` |
+| `npm run build` | Build de producción en `dist/` |
+| `npm run preview` | Sirve el build de producción localmente |
+| `npm run lint` | ESLint sobre el proyecto |
+| `npm run audit:accessibility` | Auditoría WCAG 2.1 AA con axe-core + Playwright |
 
-## Expanding the ESLint configuration
+## Variables de entorno
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Variable | Descripción | Default |
+| :--- | :--- | :--- |
+| `VITE_API_URL` | URL base del backend | `https://api-oa.ueesch.org` |
+
+## Estructura
+
+```
+src/
+├── components/
+│   ├── modules/    # 27 actividades interactivas de los módulos
+│   ├── shared/     # Componentes compartidos
+│   └── views/      # Vistas (Home, Actividad, Panel Docente, etc.)
+├── context/        # AuthContext (sesión LTI) y ProgressContext
+├── data/           # Definición de módulos y actividades
+└── services/       # Clientes HTTP de la API del backend
+```
+
+## Nota para desarrollo
+
+La aplicación espera una sesión LTI iniciada desde Moodle. Para desarrollar sin
+Moodle, `AuthContext` admite credenciales de prueba en `localStorage`
+(`oa_user`, `oa_course`, `oa_roles`).

@@ -4,3 +4,4 @@ dist/
 build/
 videos_data/
 frontend/public/Videos/
+.atl/
