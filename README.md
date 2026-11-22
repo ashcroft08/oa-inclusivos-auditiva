@@ -3,6 +3,11 @@
 > Plataforma web de Objetos de Aprendizaje (OA) inclusivos para estudiantes con
 > discapacidad auditiva, integrada con Moodle mediante LTI 1.1.
 
+<p align="center">
+  <a href="https://github.com/ashcroft08/oa-inclusivos-auditiva/actions/workflows/ci.yml"><img src="https://github.com/ashcroft08/oa-inclusivos-auditiva/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/Licencia-MIT-green.svg" alt="Licencia MIT">
+</p>
+
 ## Sobre el proyecto
 
 Conjunto de Objetos de Aprendizaje de ciencias naturales diseñados para la
